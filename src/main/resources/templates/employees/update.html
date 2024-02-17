@@ -19,13 +19,14 @@
                         <div class="card-header text-secondary">パスワードは変更する場合のみ入力してください
                         </div>
                             <div class="card-body">
-                            <form th:action="@{/employees/update}" th:object="${employee}" th:method="post">
+                            <form th:action="@{/employees/{code}/update(code=${code})}" th:object="${employee}"
+                                th:method="post">
+                                <div class="mb-3">
+                                    <label class="form-label" for="code">社員番号</label>
+                                    <p class="mb-1"></p>
+                                    <div th:text="${code}"></div>
+                                </div>
                                 <div class="wizard wizard-success mb-4">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="code">社員番号</label>
-                                        <p class="mb-1"></p>
-                                        <div th:text="${employee.code}"></div>
-                                    </div>
                                     <div class="mb-3">
                                         <label class="form-label" for="name">氏名</label>
                                         <p class="mb-1"></p>
@@ -57,11 +58,11 @@
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-                                <p class="mt-5">
-                                    <input type="submit" value="更新" class="btn btn-primary">
-                                    <a th:href="@{/employees}" class="btn btn-primary">戻る</a>
-                                </p>
+                                    <input type="hidden" th:field="*{createdAt}" th:value="${employee.createdAt}">
+                                    <p class="mt-5">
+                                        <input type="submit" value="更新" class="btn btn-primary">
+                                        <a th:href="@{/employees}" class="btn btn-primary">戻る</a>
+                                    </p>
                             </form>
                         </div>
                     </div>
