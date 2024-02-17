@@ -119,7 +119,7 @@ public class EmployeeController {
         model.addAttribute("employee", employeeService.findByCode(code));
         return "employees/update";
     }
-    
+
         // * 従業員更新処理
         @PostMapping(value = "/{code}/update")
         public String update(@PathVariable String code, @Validated Employee employee, BindingResult res, Model model) {
@@ -135,7 +135,5 @@ public class EmployeeController {
                 }
             return"redirect:/employees";
         }
-        
-    }
 
-}
+    }
