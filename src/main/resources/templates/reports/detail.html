@@ -26,27 +26,27 @@
                                 <table class="table table-striped">
                                     <tr>
                                         <th class="w-25">日付</th>
-                                        <td th:text="${#temporals.format(report.reportDate, 'yyyy-MM-dd')}" class="align-middle">aaa</td>
+                                        <td th:text="${#temporals.format(report.reportDate, 'yyyy-MM-dd')}" class="align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th>氏名</th>
-                                        <td th:text="${report.employee.name}" class="align-middle">aaa</td>
+                                        <td th:text="${report.employee.name}" class="align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th>タイトル</th>
-                                        <td th:text="${report.title}" class="align-middle">aaa</td>
+                                        <td th:text="${report.title}" class="align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th>内容</th>
-                                        <td th:text="${report.content}" class="align-middle">aaa</td>
+                                        <th><pre th:text="${report.content}" class="align-middle"></pre></th>
                                     </tr>
                                     <tr>
                                         <th>登録日時</th>
-                                        <td th:text="${#temporals.format(report.createdAt, 'yyyy-MM-dd HH:mm:ss')}" class="align-middle">aaa</td>
+                                        <td th:text="${#temporals.format(report.createdAt, 'yyyy-MM-dd HH:mm:ss')}" class="align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th>更新日時</th>
-                                        <td th:text="${#temporals.format(report.updatedAt, 'yyyy-MM-dd HH:mm:ss')}" class="align-middle">aaa</td>
+                                        <td th:text="${#temporals.format(report.updatedAt, 'yyyy-MM-dd HH:mm:ss')}" class="align-middle"></td>
                                     </tr>
                                 </table>
                                 <div class="mt-5 row g-1">
