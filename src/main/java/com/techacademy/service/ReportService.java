@@ -3,6 +3,7 @@ package com.techacademy.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +34,18 @@ public class ReportService {
         return reportRepository.findByEmployee(employee);
     }
 
- // ログイン中の従業員で同じ日付の日報取得
+    // ログイン中の従業員で同じ日付の日報検索
     public List<Report> findByEmployeeAndReportDate(Employee employee, LocalDate reportDate) {
         return reportRepository.findByEmployeeAndReportDate(employee, reportDate);
+    }
+
+    // 日報1件検索
+    public Report findById(Integer id) {
+        Optional<Report> option = reportRepository.findById(id);
+        // 取得できなかった場合ほnull
+        Report report = option.orElse(null);
+
+        return report;
     }
 
     // 日報保存
