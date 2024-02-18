@@ -24,7 +24,7 @@ import com.techacademy.service.UserDetail;
 @RequestMapping("reports")
 public class ReportController {
 
-    private ReportService reportService;
+    private final ReportService reportService;
 
     @Autowired
     public ReportController(ReportService reportService) {
@@ -49,8 +49,9 @@ public class ReportController {
 
     // 日報新規登録画面
     @GetMapping(value = "/add")
-    public String create(@ModelAttribute Report report) {
-
+    public String create(@ModelAttribute Report report, @AuthenticationPrincipal UserDetail userDetail, Model model) {
+        String name = userDetail.getEmployee().getName();
+        model.addAttribute("name", name);
         return "reports/new";
     }
 
@@ -59,7 +60,7 @@ public class ReportController {
     public String add(@Validated Report report, BindingResult res, @AuthenticationPrincipal UserDetail userDetail, Model model) {
 
         if (res.hasErrors()) {
-            return create(report);
+            return create(report, userDetail, model);
         }
 
         Employee employee = userDetail.getEmployee();
@@ -68,7 +69,7 @@ public class ReportController {
         if (!reportCheck.isEmpty()) {
             model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
                     ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
-            return create(report);
+            return create(report, userDetail, model);
         }
 
         reportService.save(report, employee);
