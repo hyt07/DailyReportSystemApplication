@@ -89,4 +89,12 @@ public class ReportController {
         return "reports/detail";
     }
 
+    // 日報削除処理
+    @PostMapping(value = "/{id}/delete")
+    public String delete(@PathVariable Integer id) {
+        reportService.delete(id);
+        return "redirect:/reports";
+    }
+
+
 }

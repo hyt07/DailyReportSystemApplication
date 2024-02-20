@@ -38,7 +38,7 @@
                                     </tr>
                                     <tr>
                                         <th>内容</th>
-                                        <th><pre th:text="${report.content}" class="align-middle"></pre></th>
+                                        <td><pre th:text="${report.content}" class="align-middle"></pre></td>
                                     </tr>
                                     <tr>
                                         <th>登録日時</th>
@@ -56,9 +56,7 @@
                                         <a class="btn btn-primary">更新</a>
                                     </div>
                                     <div class="col-auto">
-                                        <form name="form" th:method="post">
-
-                                            <!--後でリンク追加-->
+                                        <form name="form" th:action="@{/reports/{id}/delete(id=${id})}" th:method="post">
                                             <input type="submit" value="削除" class="btn btn-primary">
                                         </form>
                                     </div>
