@@ -120,20 +120,20 @@ public class EmployeeController {
         return "employees/update";
     }
 
-        // * 従業員更新処理
-        @PostMapping(value = "/{code}/update")
-        public String update(@PathVariable String code, @Validated Employee employee, BindingResult res, Model model) {
-            // 入力チェック
-            if (res.hasErrors()) {
-                model.addAttribute("employee", employee);
-                return "employees/update";
-            }
-            ErrorKinds result = employeeService.update(employee);
-            if (ErrorMessage.contains(result)) {
-                    model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-                    return edit(code, model);
-                }
-            return"redirect:/employees";
+    // 従業員更新処理
+    @PostMapping(value = "/{code}/update")
+    public String update(@PathVariable String code, @Validated Employee employee, BindingResult res, Model model) {
+        // 入力チェック
+        if (res.hasErrors()) {
+            model.addAttribute("employee", employee);
+            return "employees/update";
         }
-
+        ErrorKinds result = employeeService.update(employee);
+        if (ErrorMessage.contains(result)) {
+            model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
+            return edit(code, model);
+        }
+        return "redirect:/employees";
     }
+
+}
