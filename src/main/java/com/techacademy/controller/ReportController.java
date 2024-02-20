@@ -1,5 +1,6 @@
 package com.techacademy.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class ReportController {
     public String list(@AuthenticationPrincipal UserDetail userDetail, Model model) {
 
         // 管理者のみ全件表示
-        if(userDetail.getEmployee().getRole().toString().equals("ADMIN")) {
+        if (userDetail.getEmployee().getRole().toString().equals("ADMIN")) {
             model.addAttribute("listSize", reportService.findAll().size());
             model.addAttribute("reportList", reportService.findAll());
             return "reports/list";
@@ -61,7 +62,8 @@ public class ReportController {
 
     // 日報新規登録処理
     @PostMapping(value = "/add")
-    public String add(@Validated Report report, BindingResult res, @AuthenticationPrincipal UserDetail userDetail, Model model) {
+    public String add(@Validated Report report, BindingResult res, @AuthenticationPrincipal UserDetail userDetail,
+            Model model) {
 
         // エラーチェック
         if (res.hasErrors()) {
@@ -85,7 +87,7 @@ public class ReportController {
     // 日報詳細画面
     @GetMapping(value = "/{id}/")
     public String detail(@PathVariable Integer id, Model model) {
-        model.addAttribute("report",reportService.findById(id));
+        model.addAttribute("report", reportService.findById(id));
         return "reports/detail";
     }
 
@@ -96,5 +98,42 @@ public class ReportController {
         return "redirect:/reports";
     }
 
+    // 日報更新画面
+    @GetMapping(value = "/{id}/update")
+    public String edit(@PathVariable Integer id, Model model) {
+        model.addAttribute("report", reportService.findById(id));
+        return "reports/update";
+    }
+
+    // 日報更新処理
+    @PostMapping(value = "/{id}/update")
+    public String update(@PathVariable Integer id, @Validated Report report, BindingResult res, Model model) {
+
+        // エラーチェック
+        if (res.hasErrors()) {
+            model.addAttribute("report", report);
+            return "reports/update";
+        }
+
+        // 画面表示中の従業員で同じ日付があればエラー
+        Employee employee = report.getEmployee();
+        LocalDate updateReportDate = report.getReportDate();
+        List<Report> result = reportService.findByEmployeeAndReportDate(employee, updateReportDate);
+        // 元々の日付
+        LocalDate reportDate = reportService.findById(id).getReportDate();
+
+        // 元の日付と同じ場合はエラーを出さない
+        if (!reportDate.equals(updateReportDate)) {
+            if (!result.isEmpty()) {
+                model.addAttribute(ErrorMessage.getErrorName(ErrorKinds.DATECHECK_ERROR),
+                        ErrorMessage.getErrorValue(ErrorKinds.DATECHECK_ERROR));
+                return edit(report.getId(), model);
+            }
+        }
+
+        reportService.update(report);
+
+        return "redirect:/reports";
+    }
 
 }

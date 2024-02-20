@@ -70,4 +70,14 @@ public class ReportService {
         report.setDeleteFlg(true);
     }
 
+    // 日報更新
+    @Transactional
+    public ErrorKinds update(Report report) {
+
+        LocalDateTime now = LocalDateTime.now();
+        report.setUpdatedAt(now);
+        reportRepository.save(report);
+        return ErrorKinds.SUCCESS;
+    }
+
 }
